@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>My Ballot · Watauga · Nov 3, 2026</title>
+<style>
+  :root {
+    --ink: #1c1c1e; --quiet: #6b6b70; --grid: #e3e3e6; --edge: #9a9aa0; --tint: #f2f2f4;
+    --bg: #ffffff; --red: #c8372d; --blue: #2563eb; --good: #1f8a4c;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --ink: #f2f2f4; --quiet: #a1a1a8; --grid: #333338; --edge: #6e6e75; --tint: #26262b; --bg: #141416; --red: #ef6a5f; --blue: #6f9bff; --good: #4cc27c; }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); color: var(--ink); }
+  body { font: 16px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-text-size-adjust: 100%; }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 12px 14px 40px; padding-bottom: calc(40px + env(safe-area-inset-bottom)); }
+  button { font: inherit; color: var(--ink); cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: manipulation; background: transparent; }
+  .top { padding: 8px 0 12px; }
+  .eyebrow { font-size: 13px; color: var(--quiet); letter-spacing: 0.02em; }
+  h1 { font-size: 32px; line-height: 1.1; margin: 2px 0 6px; letter-spacing: -0.01em; }
+  .bar { height: 6px; border-radius: 3px; background: var(--grid); overflow: hidden; margin-top: 10px; }
+  .bar div { height: 100%; background: var(--ink); transition: width .25s ease; }
+  .sub { color: var(--quiet); font-size: 13px; margin: 0 0 12px; }
+  .card { border: 1.5px solid var(--edge); border-radius: 12px; padding: 12px 14px; margin-bottom: 12px; }
+  .ballot-head { display: flex; justify-content: space-between; align-items: center; width: 100%; border: 0; padding: 0; min-height: 32px; text-align: left; }
+  .ballot-head b { font-size: 20px; }
+  .ballot-head span { font-size: 13px; color: var(--quiet); }
+  table { width: 100%; border-collapse: collapse; table-layout: fixed; margin-top: 8px; }
+  th { text-align: left; font-size: 13px; color: var(--quiet); padding: 4px 6px; font-weight: 600; }
+  td { padding: 6px; border-bottom: 1px solid var(--grid); font-size: 16px; vertical-align: top; }
+  td.race { font-size: 13px; color: var(--quiet); }
+  td.empty { color: var(--quiet); }
+  td.set span { font-weight: 600; }
+  td.set i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; vertical-align: 1px; }
+  .sticky { position: sticky; top: 0; z-index: 2; background: var(--bg); padding: 8px 0 10px; border-bottom: 1px solid var(--grid); }
+  .row { display: flex; gap: 8px; }
+  .seg { flex: 1; min-height: 46px; border: 1.5px solid var(--grid); border-radius: 12px; }
+  .seg.on { border-color: var(--ink); background: var(--tint); font-weight: 600; }
+  .tabs { display: flex; gap: 6px; margin-top: 8px; overflow-x: auto; padding-bottom: 2px; -webkit-overflow-scrolling: touch; }
+  .tab { flex: none; min-height: 36px; padding: 6px 12px; font-size: 13px; border-radius: 18px; border: 1.5px solid var(--grid); }
+  .tab.on { border-color: var(--ink); background: var(--tint); font-weight: 600; }
+  .race { padding: 16px 0; border-bottom: 1px solid var(--grid); }
+  .race h2 { font-size: 20px; margin: 0; }
+  .race .job { color: var(--quiet); font-size: 13px; margin: 2px 0 10px; }
+  .opts { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; }
+  .opt { border: 1.5px solid var(--c); border-radius: 12px; overflow: hidden; }
+  .opt.on { border-width: 2.5px; background: color-mix(in srgb, var(--c) 16%, transparent); }
+  .pick { width: 100%; border: 0; min-height: 54px; padding: 10px 12px; text-align: left; display: flex; gap: 10px; align-items: center; }
+  .dot { width: 24px; height: 24px; flex: none; border-radius: 12px; border: 2px solid var(--c); color: var(--bg); font-size: 15px; line-height: 20px; text-align: center; font-weight: 700; }
+  .dot.sq { border-radius: 6px; }
+  .opt.on .dot { background: var(--c); }
+  .who { flex: 1; }
+  .who b { display: block; }
+  .who small { display: block; font-size: 13px; color: var(--quiet); }
+  .state { font-size: 13px; color: var(--quiet); }
+  .opt.on .state { color: var(--ink); font-weight: 600; }
+  .info { padding: 0 12px 10px 46px; font-size: 13px; }
+  .info .about { color: var(--quiet); }
+  .pc { display: flex; gap: 6px; margin-top: 4px; }
+  .pc .p { color: var(--good); font-weight: 700; }
+  .pc .m { color: var(--red); font-weight: 700; }
+  .more { border: 0; padding: 6px 0 0; font-size: 13px; color: var(--quiet); text-decoration: underline; min-height: 28px; }
+  .nav { display: flex; gap: 8px; margin-top: 16px; }
+  .nav .seg.go { flex: 2; border-color: var(--ink); background: var(--tint); font-weight: 600; }
+  .small { flex: 1; min-height: 38px; font-size: 13px; border: 1px solid var(--grid); border-radius: 12px; color: var(--quiet); }
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<script>
+const o = (n, p, now, about, pro, con) => ({ n, p, now, about, pro, con });
+const RACES = [
+ { id: 'sen', g: 'Washington', s: 'US Senate', office: 'US Senate', job: 'Votes on national laws and confirms federal judges. One of two senators for all of NC, 6-year term.', max: 1, opts: [
+  o('Michael Whatley', 'R', false, 'Lives in Boone. Former Republican National Committee and NC GOP chair. Runs on the Trump agenda, tax cuts, healthcare costs, crime and immigration.', 'Opposes abortion; Susan B. Anthony Pro-Life America is spending millions for him. Votes with the Republican majority.', 'Never held elected office. No detailed platform. Skipped Vote411.'),
+  o('Roy Cooper', 'D', false, 'NC governor 2017 to 2025, attorney general before that. Runs on cost of living and restoring ACA subsidies.', 'Four statewide wins. Signed Medicaid expansion with the Republican legislature in 2023.', 'Supports abortion rights (vetoed the 12-week limit). Vetoed bills requiring sheriffs to cooperate with ICE.'),
+  o('Shannon W. Bray', 'Libertarian', false, 'Navy veteran and AI software architect.', 'Constitution-first, pro-privacy, wants spending reviewed.', 'No chance of winning. Abortion stance not stated.'),
+  o('Michael Dublin', 'Green', false, 'Retired teacher and Marine. Takes no corporate or PAC money.', 'Independent of big donors.', 'Single-payer healthcare, much higher taxes, end the Federal Reserve. No chance of winning.')] },
+ { id: 'house', g: 'Washington', s: 'US House', office: 'US House, District 5', job: 'Our region in Congress. 2-year term.', max: 1, opts: [
+  o('Virginia Foxx', 'R', true, 'In Congress since 2005, longest-serving member of NC delegation. Beat Hubbard 59.5% to 40.5% in 2024.', 'Consistent pro-life, low-tax record. Seniority; chaired Education and Workforce.', '83 years old. Opponent says no town hall in a decade. Skipped Vote411.'),
+  o('Chuck Hubbard', 'D', false, '40 years at the Wilkes Journal-Patriot newspaper.', 'Focus on cost of living, wages, clean water. Holding town halls across the district.', 'Mainstream Democratic agenda. Abortion stance not stated.'),
+  o('Robert B. Luffman', 'Libertarian', false, 'Owner-operator truck driver and photographer.', 'Term limits, ban congressional stock trading, no income tax under $150k.', 'No chance of winning. Thin policy detail.')] },
+ { id: 'ncs', g: 'Raleigh', s: 'NC Senate', office: 'NC Senate, District 47', job: 'Writes state laws and the state budget. Covers 9 mountain counties.', max: 1, opts: [
+  o('Ralph Hise', 'R', true, 'Mitchell County. In the NC Senate since 2011; budget and redistricting leader. Beat Hughes 64% to 36% in 2024.', 'Real clout for the mountains. Voted for income tax cuts and abortion limits.', 'Paid $4,500 in 2018 to settle a campaign finance probe. Critics call his maps gerrymandered. Skipped Vote411.'),
+  o('Frank Patton Hughes III', 'D', false, 'Lost to Hise in 2024. Endorsed by Ashe County Democrats.', 'A check on the Republican supermajority.', 'No platform found. Abortion stance unknown.')] },
+ { id: 'nch', g: 'Raleigh', s: 'NC House', office: 'NC House, District 93', job: 'Also writes state laws. Smaller district: Ashe, Alleghany, part of Watauga.', max: 1, opts: [
+  o('Ray Pickett', 'R', true, 'In the seat since 2021. Won 2024 by about 14 points.', 'Votes with the majority on taxes and abortion limits.', 'Low profile. Skipped Vote411.'),
+  o('Charlie Wallin', 'D', false, 'Former Watauga County commissioner. Works at App State.', 'Public schools, rural infrastructure, local experience.', 'A Democratic vote in Raleigh. Abortion stance unknown.')] },
+ { id: 'sup', g: 'Judges', s: 'NC Supreme Court', office: 'NC Supreme Court, Seat 1', job: 'Final word on what NC law means. 8-year term. A Stevens win makes the court 6-1 Republican.', max: 1, opts: [
+  o('Sarah Stevens', 'R', false, 'Family law attorney from Surry County. NC House 2009 to 2026, Speaker Pro Tem 2017 to 2025.', 'Would widen the conservative majority; reads the constitution as written.', 'Never been a judge. Very quiet campaign. Skipped Vote411.'),
+  o('Anita Earls', 'D', true, 'On the court since 2019. 30 years as a civil rights lawyer.', 'Only candidate with judicial experience. Focus on legal help for people who cannot afford it.', 'The court’s most liberal voice. Sued the judicial ethics commission in 2023 over a probe of her comments.')] },
+ { id: 'coa1', g: 'Judges', s: 'Appeals 1', office: 'Court of Appeals, Seat 1', job: 'Reviews whether trial judges got it right.', max: 1, opts: [
+  o('Michael C. Byrne', 'R', false, 'Administrative law judge about 6 years, ~400 opinions.', 'Never reversed. Endorsed by NC Fraternal Order of Police.', 'Administrative court, not a trial or appeals court.'),
+  o('John S. Arrowood', 'D', true, 'Appeals judge 10+ years, former Superior Court judge.', 'Most experienced in the race; 400+ opinions.', 'Thin questionnaire answers.')] },
+ { id: 'coa2', g: 'Judges', s: 'Appeals 2', office: 'Court of Appeals, Seat 2', job: 'Same court, different seat.', max: 1, opts: [
+  o('George Cooper Bell', 'R', false, 'Mecklenburg Superior Court judge since 2019; 100+ felony jury trials.', 'Real trial experience; runs on public safety.', 'Skipped Vote411.'),
+  o('Toby Hampson', 'D', true, 'Appeals judge since 2019.', 'Says most of his opinions are unanimous and bipartisan.', 'Never a trial judge.')] },
+ { id: 'coa3', g: 'Judges', s: 'Appeals 3', office: 'Court of Appeals, Seat 3', job: 'Same court, different seat.', max: 1, opts: [
+  o('Craig Collins', 'R', false, 'Sitting Superior Court judge; 9 years a prosecutor.', 'Constitution as written; against activist judges.', 'Tough-on-crime framing.'),
+  o('Christine Marie Walczyk', 'D', false, 'District Court judge 19 years.', 'Long trial bench record; expanded help for people without lawyers.', 'Campaigns on “balance” against the other branches.')] },
+ { id: 'spr', g: 'Judges', s: 'Superior Court', office: 'Superior Court Judge, Dist. 35', job: 'Handles felony and major civil trials. Unopposed.', max: 1, opts: [
+  o('Matthew Rupp', 'R', false, 'Local District Court judge since 2022; former assistant DA here.', 'Only name on the ballot.', 'Skipped Vote411.')] },
+ { id: 'dst', g: 'Judges', s: 'District Court', office: 'District Court Judge, Dist. 35', job: 'Custody, divorce, traffic, misdemeanors, juvenile cases.', max: 1, opts: [
+  o('Eric F. Eller', 'R', false, 'Lawyer 30+ years in NW NC. Army veteran. 8 years on Watauga Board of Elections.', 'Has handled every kind of District Court case.', 'Mostly criminal defense lately.'),
+  o('Andrew Brooks', 'D', false, 'Local attorney 13 years.', 'Focus on family law, DSS, juvenile, domestic violence.', 'Fewer years in practice than Eller.')] },
+ { id: 'da', g: 'Judges', s: 'District Attorney', office: 'District Attorney, Dist. 35', job: 'Head prosecutor for our area. Unopposed.', max: 1, opts: [
+  o('Seth Banks', 'R', true, 'DA since 2014.', 'Only name on the ballot.', 'Skipped Vote411.')] },
+ { id: 'sher', g: 'Watauga County', s: 'Sheriff', office: 'Sheriff', job: 'Runs county law enforcement and the jail.', max: 1, opts: [
+  o('Darin Church', 'R', false, 'Deep Gap native. Blowing Rock Police lieutenant; ~26 years in law enforcement, 20+ in fire service.', 'Fresh leadership after 20 years. 2,500+ training hours in trafficking, child crimes, death investigations.', 'Never run a department. Few specifics beyond community engagement.'),
+  o('Len (LD) Hagaman Jr.', 'D', true, 'Sheriff since 2006. Former Boone town manager and county commissioner.', '20 years in the job. Focus on drugs, scams on seniors, school safety, mental health calls.', 'Seeking a sixth term; little turnover at the top.')] },
+ { id: 'comm', g: 'Watauga County', s: 'Commission', office: 'County Commission, District 2', job: 'Sets the county budget, property tax rate and land-use rules.', max: 1, opts: [
+  o('Savva Kostis', 'R', false, 'Lifelong local; grandfather served 3 terms as commissioner. Licensed contractor; Planning Board since 2022.', 'Replace aging schools (Hardin Park first), fix traffic signals, help families buy homes, scrutinize consultant spending.', 'No elected experience. Noncommittal on how sales tax is split.'),
+  o('Ray Russell', 'D', true, 'Former App State professor, founder of Ray’s Weather, one term in NC House, now commissioner.', 'Experienced. Workforce housing goal of 1,600 units. Endorsed by Sierra Club and a local reviewer.', 'No specific plan on large developments. Votes with Democratic board majority.')] },
+ { id: 'clerk', g: 'Watauga County', s: 'Clerk', office: 'Clerk of Superior Court', job: 'Runs court records, estates and wills.', max: 1, opts: [
+  o('Charles M. Haynes', 'R', true, 'Clerk since 2021; beat Fehl in 2022. Rematch.', 'Continuity in a technical job.', 'Little public record beyond the job.'),
+  o('Holly Fehl', 'D', false, 'Former deputy clerk, paralegal, judicial services coordinator.', 'Courthouse experience.', 'Lost in 2022; new to running the office.')] },
+ { id: 'soil', g: 'Watauga County', s: 'Soil & Water', office: 'Soil and Water Supervisor', job: 'Nonpartisan. Conservation help for farms and streams. Vote for up to TWO.', max: 2, opts: [
+  o('David Williams', '', false, 'Just retired as NC state director of soil and water conservation (28 years).', 'Deep expertise; ag and student outreach.', ''),
+  o('David Scott', '', false, 'Nothing public; did not answer reporters.', '', 'Unknown.'),
+  o('Aaron Grig', '', false, 'Worried about declining watersheds.', 'Cleaner water, more public input, herbicide transparency.', '')] },
+ { id: 'a1', g: 'Constitutional amendments', s: 'Amend. 1 Photo ID', office: '1. Photo ID for all voters', job: 'Puts photo ID for mail voters into the constitution. It is already state law.', max: 1, opts: [
+  o('For', '', false, 'Constitution requires photo ID for every voter, however they vote.', 'One standard for everyone. Harder to undo later.', ''),
+  o('Against', '', false, 'Rule stays regular state law only.', 'Nothing changes day to day either way.', '')] },
+ { id: 'a2', g: 'Constitutional amendments', s: 'Amend. 2 Income tax', office: '2. Income tax cap at 3.5%', job: 'Lowers the constitutional ceiling on NC income tax from 7% to 3.5%.', max: 1, opts: [
+  o('For', '', false, 'Ceiling becomes 3.5%. Only a future amendment can raise it.', 'Locks in low taxes; keeps NC competitive with TN, FL, SC.', 'Less room for schools and disaster recovery later; credit agencies dislike caps.'),
+  o('Against', '', false, 'Ceiling stays 7%. Current law already takes the rate to 3.49% in 2027 and 2.99% in 2028.', 'Keeps flexibility.', 'No permanent guarantee.')] },
+ { id: 'a3', g: 'Constitutional amendments', s: 'Amend. 3 Property tax', office: '3. Property tax limit', job: 'Requires lawmakers to later cap how fast local property tax revenue grows.', max: 1, opts: [
+  o('For', '', false, 'Legislature must write a cap; the number is decided later.', 'Protects against rising property tax bills.', 'You vote before knowing the limit. Less local control; could squeeze schools, EMS, roads.'),
+  o('Against', '', false, 'Counties keep current control over property taxes.', 'Local control stays.', 'No new protection on tax growth.')] }
+];
+const GROUPS = ['Washington', 'Raleigh', 'Judges', 'Watauga County', 'Constitutional amendments'];
+const STEPS = ['Washington', 'Raleigh', 'Judges', 'County', 'Amendments'];
+const KEY = 'watauga-ballot-2026-v3';
+const tone = p => p === 'R' ? 'var(--red)' : p === 'D' ? 'var(--blue)' : 'var(--edge)';
+const tag = p => p === 'R' ? 'Republican' : p === 'D' ? 'Democrat' : p;
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+
+let S = { step: 0, picks: {}, open: {}, showBallot: true };
+try { const saved = JSON.parse(localStorage.getItem(KEY) || 'null'); if (saved) S = Object.assign(S, saved, { open: {} }); } catch (e) {}
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify({ step: S.step, picks: S.picks, showBallot: S.showBallot })); } catch (e) {} };
+
+const got = id => S.picks[id] || [];
+const done = () => RACES.filter(r => got(r.id).length).length;
+const left = i => RACES.filter(r => r.g === GROUPS[i] && !got(r.id).length).length;
+const partyOf = (r, n) => (r.opts.find(c => c.n === n) || {}).p || '';
+
+function render() {
+  const n = done();
+  const rows = RACES.map(r => { const g = got(r.id); return `<tr><td class="race">${esc(r.s)}</td>${g.length ? `<td class="set"><i style="background:${tone(partyOf(r, g[0]))}"></i><span>${esc(g.join(' + '))}</span></td>` : '<td class="empty">Not picked yet</td>'}</tr>`; }).join('');
+  const races = RACES.filter(r => r.g === GROUPS[S.step]).map(r => `
+    <div class="race"><h2>${esc(r.office)}</h2><div class="job">${esc(r.job)}</div><div class="opts">
+    ${r.opts.map((c, i) => { const on = got(r.id).includes(c.n); const more = S.open[r.id + i]; const meta = [c.p ? tag(c.p) : '', c.now ? 'has the job now' : ''].filter(Boolean).join(' · ');
+      return `<div class="opt${on ? ' on' : ''}" style="--c:${tone(c.p)}">
+        <button class="pick" data-act="pick" data-race="${r.id}" data-i="${i}" aria-pressed="${on}"><span class="dot${r.max > 1 ? ' sq' : ''}">${on ? '✓' : ''}</span><span class="who"><b>${esc(c.n)}</b>${meta ? `<small>${esc(meta)}</small>` : ''}</span></button>
+        <div class="info"><div class="about">${esc(c.about)}</div>
+        ${more ? `${c.pro ? `<div class="pc"><span class="p">+</span><span>${esc(c.pro)}</span></div>` : ''}${c.con ? `<div class="pc"><span class="m">−</span><span>${esc(c.con)}</span></div>` : ''}` : ''}
+        ${c.pro || c.con ? `<button class="more" data-act="more" data-key="${r.id}${i}">${more ? 'Hide pros and cons' : 'Pros and cons'}</button>` : ''}</div></div>`; }).join('')}
+    </div></div>`).join('');
+  const last = S.step === GROUPS.length - 1;
+  document.getElementById('app').innerHTML = `
+    <header class="top">
+      <div class="eyebrow">Watauga County · Nov 3, 2026</div>
+      <h1>My ballot</h1>
+      <p class="sub">Rec Center, 231 Complex Dr · polls close 7:30 p.m. · bring photo ID</p>
+      <div class="bar"><div style="width:${Math.round(n / RACES.length * 100)}%"></div></div>
+    </header>
+    <div class="card">
+      <button class="ballot-head" data-act="ballot"><b>${n === RACES.length ? 'All set' : n + ' of ' + RACES.length + ' picked'}</b><span>${S.showBallot ? 'Hide ▴' : 'Show ▾'}</span></button>
+      ${S.showBallot ? `<table><colgroup><col style="width:38%"><col style="width:62%"></colgroup><tbody>${rows}</tbody></table>` : ''}
+    </div>
+    <div class="sticky"><div class="tabs">${STEPS.map((s, i) => `<button class="tab${S.step === i ? ' on' : ''}" data-act="step" data-i="${i}">${s}${left(i) ? ' · ' + left(i) : ' ✓'}</button>`).join('')}</div></div>
+    ${races}
+    <div class="nav">${S.step > 0 ? '<button class="seg" data-act="back">Back</button>' : ''}${last ? '<button class="seg go" data-act="finish">Done: see my ballot</button>' : `<button class="seg go" data-act="next">Next: ${STEPS[S.step + 1]}</button>`}</div>
+    <div class="row" style="margin-top:10px"><button class="small" data-act="clear">Start over</button></div>`;
+}
+
+function toTop() { const el = document.querySelector('.sticky'); if (el) window.scrollTo({ top: el.offsetTop - 4, behavior: 'smooth' }); }
+
+document.getElementById('app').addEventListener('click', e => {
+  const b = e.target.closest('[data-act]'); if (!b) return;
+  const a = b.dataset.act;
+  if (a === 'pick') {
+    const r = RACES.find(x => x.id === b.dataset.race); const n = r.opts[+b.dataset.i].n; const k = r.id; const cur = S.picks[k] || [];
+    S.picks[k] = cur.includes(n) ? cur.filter(x => x !== n) : r.max === 1 ? [n] : cur.length < r.max ? cur.concat([n]) : cur.slice(1).concat([n]);
+  } else if (a === 'more') { S.open[b.dataset.key] = !S.open[b.dataset.key]; }
+  else if (a === 'ballot') { S.showBallot = !S.showBallot; }
+  else if (a === 'step') { S.step = +b.dataset.i; render(); save(); toTop(); return; }
+  else if (a === 'next') { S.step++; render(); save(); toTop(); return; }
+  else if (a === 'back') { S.step--; render(); save(); toTop(); return; }
+  else if (a === 'finish') { S.showBallot = true; render(); save(); window.scrollTo({ top: 0, behavior: 'smooth' }); return; }
+  else if (a === 'clear') { if (!confirm('Clear all your picks?')) return; S.picks = {}; S.step = 0; }
+  render(); save();
+});
+render();
+</script>
+</body>
+</html>
